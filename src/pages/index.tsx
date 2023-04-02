@@ -4,7 +4,24 @@ import styles from '@/styles/Home.module.css'
 
 import Filters from '@/components/Filters'
 
+// import Inventory from '../../models'
+
 export default function Home() {
+  // async function queryInventory() {
+  //   const inventoryObjects = Inventory.findAll({
+  //     include: [
+  //       { model: User, attributes: ['name'] },
+  //       { model: Color, attributes: ['color_name'] },
+  //       {
+  //         model: Item,
+  //         attributes: ['id', 'item_name'],
+  //         include: [{ model: Category, attributes: ['category_name'] }],
+  //       },
+  //     ],
+  //     where: { user_id: req.session.user_id },
+  //   })
+  // }
+
   return (
     <>
       <Head>

@@ -1,10 +1,10 @@
 export default function Signup() {
   return (
     <main
-      className="h-full w-full"
-      style={{ backgroundImage: "url('/img/sun.jpg')" }}
+      className="h-full w-full min-h-screen"
+      style={{ backgroundImage: "url('/sun.jpg')" }}
     >
-      <div className="h-full flex items-center flex-col md:justify-center">
+      <div className="h-full min-h-screen flex items-center flex-col md:justify-center">
         <div className="bg-white rounded-md p-8 mt-16 md:mt-0">
           <div className="my-8">
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-center pt-5">

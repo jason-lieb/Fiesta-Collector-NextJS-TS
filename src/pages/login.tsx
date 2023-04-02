@@ -1,10 +1,10 @@
 export default function Login() {
   return (
     <main
-      className="h-full w-full"
-      style={{ backgroundImage: "url('/img/sun.jpg')" }}
+      className="h-full w-full min-h-screen"
+      style={{ backgroundImage: "url('/sun.jpg')" }}
     >
-      <div className="flex h-full flex-col items-center md:justify-center">
+      <div className="flex h-full min-h-screen flex-col items-center md:justify-center">
         <div className="mt-16 rounded-md bg-white p-8 md:mt-0">
           <div className="my-8">
             <h1 className="pt-5 text-center font-serif text-4xl md:text-5xl lg:text-6xl">

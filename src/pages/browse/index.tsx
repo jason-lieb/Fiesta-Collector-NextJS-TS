@@ -1,30 +1,34 @@
-import Head from 'next/head'
-
 import Filters from '@/components/Filters'
 import Item from '@/components/Item'
 
-export default function Browse() {
-  let items: string[] = []
+import BrowseController from '../../../controller/BrowseController'
 
+export default function Browse({ items, categories, colors }) {
   return (
     <>
-      <Head>
-        <title>Browse Fiestaware</title>
-      </Head>
       <div className="lg:flex">
-        <Filters />
+        <Filters categories={categories} colors={colors} items={items} />
         <main id="main" className="scroll line">
           <div
             id="itemCards"
             className="flex flex-wrap justify-around lg:justify-start gap-4 m-8 ml-14"
           >
             {items.map((item, i) => (
-              <p key={i}>{!!item && 'test'}</p>
-              // <Item item={item} />
+              <Item key={i} item={item} />
             ))}
           </div>
         </main>
       </div>
     </>
   )
+}
+
+export async function getServerSideProps(context) {
+  const data = await BrowseController.get()
+  if (data?.Error) return console.log('Server Error')
+  const { items, categories, colors } = data
+
+  return {
+    props: { items, categories, colors },
+  }
 }
