@@ -1,29 +1,46 @@
-import Filters from '@/components/Filters'
-import Item from '@/components/Item'
+import { FunctionComponent, useState } from 'react'
 
-import BrowseController from '../../../controller/BrowseController'
+import { BrowseController } from '../../../controller'
 
-export default function Browse({ items, categories, colors }) {
+import { Filters } from '@/components/Filters'
+import { ItemCard } from '@/components/ItemCard'
+import { Item } from '@/utils/types'
+import { GetStaticProps } from 'next'
+
+type BrowseProps = {
+  items: Item[]
+  categories: string[]
+  colors: string[]
+}
+
+export const Browse: FunctionComponent<BrowseProps> = ({
+  items,
+  categories,
+  colors,
+}) => {
+  const [selectedCategories, setSelectedCategories] = useState(new Set())
+
   return (
-    <>
-      <div className="lg:flex">
-        <Filters categories={categories} colors={colors} items={items} />
-        <main id="main" className="scroll line">
-          <div
-            id="itemCards"
-            className="flex flex-wrap justify-around lg:justify-start gap-4 m-8 ml-14"
-          >
-            {items.map((item, i) => (
-              <Item key={i} item={item} />
-            ))}
-          </div>
-        </main>
-      </div>
-    </>
+    <div className="lg:flex">
+      <Filters
+        categories={categories}
+        selectedCategories={selectedCategories}
+      />
+      <main id="main" className="scroll line">
+        <div
+          id="itemCards"
+          className="flex flex-wrap justify-around lg:justify-start gap-4 m-8 ml-14"
+        >
+          {items.map((item, i) => (
+            <ItemCard key={i} item={item} />
+          ))}
+        </div>
+      </main>
+    </div>
   )
 }
 
-export async function getServerSideProps(context) {
+export const getServerSideProps: GetStaticProps = async () => {
   const data = await BrowseController.get()
   if (data?.Error) return console.log('Server Error')
   const { items, categories, colors } = data

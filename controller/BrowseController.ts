@@ -1,19 +1,20 @@
 import { Item, Category, Color, Inventory } from '../models'
 
-export default class BrowseController {
-  static async get(req, res) {
+export class BrowseController {
+  static async get() {
     try {
       // Query all items
       const itemObjects = await Item.findAll({
         include: [{ model: Category }],
       })
       const dataForItems = itemObjects.map((data) => data.get({ plain: true }))
-      const imagesNotAvailable = []
+      // const imagesNotAvailable = []
       const items = dataForItems.map((data) => {
         return {
-          item_id: data.id,
-          item_name: data.item_name,
-          item_has_pic: !imagesNotAvailable.includes(data.id),
+          id: data.id,
+          name: data.item_name,
+          // has_pic: !imagesNotAvailable.includes(data.id),
+          has_pic: true,
           category_name: data.category.category_name,
         }
       })
@@ -31,9 +32,9 @@ export default class BrowseController {
     }
   }
 
-  static async getOne(req, res) {
+  static async getOne(id) {
     try {
-      const itemObject = await Item.findByPk(req.params.id)
+      const itemObject = await Item.findByPk(id)
       const item = itemObject.get({ plain: true })
       const imagesNotAvailable = []
       const colorObjects = await Color.findAll()
@@ -42,7 +43,8 @@ export default class BrowseController {
       )
       return {
         item,
-        item_has_pic: !imagesNotAvailable.includes(item.id),
+        // item_has_pic: !imagesNotAvailable.includes(item.id),
+        has_pic: true,
         colors,
       }
     } catch (err) {
@@ -50,20 +52,20 @@ export default class BrowseController {
     }
   }
 
-  static async postOne(req, res) {
-    try {
-      const item_id = +req.params.id
-      const user_id = req.session.user_id
-      const color = await Color.findAll({
-        where: { color_name: req.body.color },
-      })
-      const color_id = color[0].get({ plain: true }).id
-      const quantity = +req.body.qty
-      const createData = { user_id, item_id, color_id, quantity }
-      const inventoryData = await Inventory.create(createData)
-      return inventoryData
-    } catch (err) {
-      return { Error: err }
-    }
-  }
+  // static async postOne() {
+  //   try {
+  //     const item_id = +req.params.id
+  //     const user_id = req.session.user_id
+  //     const color = await Color.findAll({
+  //       where: { color_name: req.body.color },
+  //     })
+  //     const color_id = color[0].get({ plain: true }).id
+  //     const quantity = +req.body.qty
+  //     const createData = { user_id, item_id, color_id, quantity }
+  //     const inventoryData = await Inventory.create(createData)
+  //     return inventoryData
+  //   } catch (err) {
+  //     return { Error: err }
+  //   }
+  // }
 }

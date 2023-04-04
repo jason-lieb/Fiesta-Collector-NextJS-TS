@@ -49,21 +49,19 @@ export class HomeController {
         const items = new Set()
         dataForInventory.forEach((data) => items.add(data.item.item_name))
         // Pass all info to handlebars
-        res.render('home', {
+        return {
           inventory,
           categories,
           colors,
           items,
           name: nameOfUser,
-          home: true,
-        })
+        }
       } else {
         const userNameObject = await User.findByPk(req.session.user_id)
         const nameOfUser = userNameObject.dataValues.name
-        res.render('home', {
+        return {
           name: nameOfUser,
-          home: true,
-        })
+        }
       }
     } catch (err) {
       return { Error: err }

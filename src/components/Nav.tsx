@@ -1,6 +1,7 @@
+import { FunctionComponent } from 'react'
 import Link from 'next/link'
 
-export default function Nav() {
+export const Nav: FunctionComponent<void> = () => {
   return (
     <>
       <nav className="sticky top-0 z-20 bg-zinc-600 text-white flex flex-col items-center sm:justify-between sm:flex-row">

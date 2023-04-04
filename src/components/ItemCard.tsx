@@ -1,16 +1,21 @@
-import Image from 'next/image'
+import { FunctionComponent } from 'react'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
+import Link from 'next/link'
 
-export default function Item({ item }) {
+import { Item } from '@/utils/types'
+
+type ItemProps = {
+  item: Item
+}
+
+export const ItemCard: FunctionComponent<ItemProps> = ({ item }) => {
   const router = useRouter()
+
   return (
     <div
       id="card"
       className="container border-2 border-zinc-600 w-64 h-[363px] relative rounded"
-      // data-color="{{color_name}}"
-      // data-category="{{category_name}}"
-      // data-item="{{item_name}}"
-      // data-id="{{item_id}}"
     >
       {item?.item_has_pic ? (
         <Image
@@ -43,7 +48,9 @@ export default function Item({ item }) {
       {router.pathname === '/' ? (
         <i className="edit fa-solid fa-pen-to-square text-white absolute right-2 bottom-2 hover:text-orange-400"></i>
       ) : (
-        <i className="addItem fa-solid fa-plus text-xl text-white absolute bottom-1 right-1 z-10 hover:text-orange-400"></i>
+        <Link href={`/browse/${item.item_id}`}>
+          <i className="addItem fa-solid fa-plus text-xl text-white absolute bottom-1 right-1 z-10 hover:text-orange-400"></i>
+        </Link>
       )}
     </div>
   )

@@ -9,7 +9,8 @@ import Nav from '@/components/Nav'
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
   const pathname = router.pathname
-  const renderNav = pathname === '/' || pathname === '/browse'
+  const renderNav =
+    pathname === '/' || pathname === '/browse' || pathname === '/browse/[id]'
   return (
     <>
       <Head>
