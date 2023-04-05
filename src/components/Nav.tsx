@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react'
 import Link from 'next/link'
 
-export const Nav: FunctionComponent<void> = () => {
+export const Nav: FunctionComponent<{}> = () => {
   return (
     <>
       <nav className="sticky top-0 z-20 bg-zinc-600 text-white flex flex-col items-center sm:justify-between sm:flex-row">

@@ -1,7 +1,29 @@
 import { Item, Category, Color, Inventory } from '../models'
+import { Item as ItemType } from '@/utils/types'
+
+type GetReturnType =
+  | {
+      item: ItemType
+      categories: string[]
+      colors: string[]
+    }
+  | { Error: any }
+
+type GetOneReturnType =
+  | {
+      item: ItemType
+      colors: string[]
+    }
+  | { Error: any }
+
+type PostOneReturnType =
+  | {
+      inventory: ItemType[]
+    }
+  | { Error: any }
 
 export class BrowseController {
-  static async get() {
+  static async get(): Promise<GetReturnType> {
     try {
       // Query all items
       const itemObjects = await Item.findAll({
@@ -32,11 +54,12 @@ export class BrowseController {
     }
   }
 
-  static async getOne(id) {
+  static async getOne(id: number): Promise<GetOneReturnType> {
     try {
       const itemObject = await Item.findByPk(id)
-      const item = itemObject.get({ plain: true })
-      const imagesNotAvailable = []
+      const dataFromItem = itemObject?.get({ plain: true })
+      const item = { has_pic: true, ...dataFromItem }
+      // const imagesNotAvailable = []
       const colorObjects = await Color.findAll()
       const colors = colorObjects.map(
         (data) => data.get({ plain: true }).color_name
@@ -44,7 +67,6 @@ export class BrowseController {
       return {
         item,
         // item_has_pic: !imagesNotAvailable.includes(item.id),
-        has_pic: true,
         colors,
       }
     } catch (err) {
@@ -52,7 +74,7 @@ export class BrowseController {
     }
   }
 
-  // static async postOne() {
+  // static async postOne(): Promise<PostOneReturnType> {
   //   try {
   //     const item_id = +req.params.id
   //     const user_id = req.session.user_id

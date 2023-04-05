@@ -15,7 +15,7 @@ type HomeProps = {
   name: string
 }
 
-export const Home: FunctionComponent<HomeProps> = ({
+const Home: FunctionComponent<HomeProps> = ({
   inventory,
   items,
   categories,
@@ -47,6 +47,8 @@ export const Home: FunctionComponent<HomeProps> = ({
     </>
   )
 }
+
+export default Home
 
 export const getServerSideProps: GetStaticProps = async () => {
   const data = await HomeController.get()

@@ -1,4 +1,6 @@
-export default function Signup() {
+import { FunctionComponent } from 'react'
+
+const Signup: FunctionComponent<{}> = () => {
   return (
     <main
       className="h-full w-full min-h-screen"
@@ -89,3 +91,5 @@ export default function Signup() {
     </main>
   )
 }
+
+export default Signup

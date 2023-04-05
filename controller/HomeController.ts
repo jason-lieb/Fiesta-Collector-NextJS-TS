@@ -1,7 +1,7 @@
 const { Inventory, User, Color, Item, Category } = require('../models')
 
 export class HomeController {
-  static async get(req, res) {
+  static async get() {
     try {
       // Query all of inventory for user
       const inventoryObjects = await Inventory.findAll({

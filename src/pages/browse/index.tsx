@@ -13,7 +13,7 @@ type BrowseProps = {
   colors: string[]
 }
 
-export const Browse: FunctionComponent<BrowseProps> = ({
+const Browse: FunctionComponent<BrowseProps> = ({
   items,
   categories,
   colors,
@@ -39,6 +39,8 @@ export const Browse: FunctionComponent<BrowseProps> = ({
     </div>
   )
 }
+
+export default Browse
 
 export const getServerSideProps: GetStaticProps = async () => {
   const data = await BrowseController.get()
