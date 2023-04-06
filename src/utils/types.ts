@@ -10,9 +10,11 @@ export type Item = {
 export type Result<Error, Value> =
   | {
       success: false
-      error: Error
+      error: unknown
     }
   | {
       success: true
       value: Value
     }
+
+export type SelectedCategories = Set<string>

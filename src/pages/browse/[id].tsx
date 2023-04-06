@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react'
-import { GetStaticProps } from 'next'
+import { GetServerSideProps, GetStaticProps } from 'next'
 import Image from 'next/image'
 
 import { BrowseController } from '../../../controller'
@@ -11,7 +11,7 @@ type BrowseItemProps = {
   colors: string[]
 }
 
-export const BrowseItem: FunctionComponent<BrowseItemProps> = ({
+const BrowseItem: FunctionComponent<BrowseItemProps> = ({
   item,
   item_has_pic,
   colors,
@@ -80,7 +80,11 @@ export const BrowseItem: FunctionComponent<BrowseItemProps> = ({
   )
 }
 
-export const getServerSideProps: GetStaticProps = async ({ params }) => {
+export default BrowseItem
+
+export const getServerSideProps: GetServerSideProps<BrowseItemProps> = async ({
+  params,
+}) => {
   const data = await BrowseController.getOne(params?.id)
   if (data?.Error) return console.log('Server Error')
   const { item, item_has_pic, colors } = data

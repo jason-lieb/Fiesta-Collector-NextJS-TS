@@ -17,10 +17,10 @@ export const ItemCard: FunctionComponent<ItemProps> = ({ item }) => {
       id="card"
       className="container border-2 border-zinc-600 w-64 h-[363px] relative rounded"
     >
-      {item?.item_has_pic ? (
+      {item?.has_pic ? (
         <Image
-          src={`/items/${item.item_id}.webp`}
-          alt={item.item_name}
+          src={`/items/${item.id}.webp`}
+          alt={item.name}
           className="img w-[270px] h-[270px]"
           width={270}
           height={270}
@@ -35,9 +35,7 @@ export const ItemCard: FunctionComponent<ItemProps> = ({ item }) => {
         />
       )}
       <div className="text-center flex justify-center items-center h-[89px] bg-zinc-600 text-white p-2">
-        <p className="font-dosis text-xl row-span-4 col-span-5">
-          {item.item_name}
-        </p>
+        <p className="font-dosis text-xl row-span-4 col-span-5">{item.name}</p>
         {item?.color_name && (
           <>
             <p className="font-dosis text-xl">{item.color_name}</p>
@@ -48,7 +46,7 @@ export const ItemCard: FunctionComponent<ItemProps> = ({ item }) => {
       {router.pathname === '/' ? (
         <i className="edit fa-solid fa-pen-to-square text-white absolute right-2 bottom-2 hover:text-orange-400"></i>
       ) : (
-        <Link href={`/browse/${item.item_id}`}>
+        <Link href={`/browse/${item.id}`}>
           <i className="addItem fa-solid fa-plus text-xl text-white absolute bottom-1 right-1 z-10 hover:text-orange-400"></i>
         </Link>
       )}

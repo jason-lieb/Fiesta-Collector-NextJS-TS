@@ -1,29 +1,24 @@
 import { Item, Category, Color, Inventory } from '../models'
 import { Item as ItemType } from '@/utils/types'
+import { Result } from '@/utils/types'
 
-type GetReturnType =
-  | {
-      item: ItemType
-      categories: string[]
-      colors: string[]
-    }
-  | { Error: any }
+type GetReturnType = {
+  items: ItemType[]
+  categories: string[]
+  colors: string[]
+}
 
-type GetOneReturnType =
-  | {
-      item: ItemType
-      colors: string[]
-    }
-  | { Error: any }
+type GetOneReturnType = {
+  item: ItemType
+  colors: string[]
+}
 
-type PostOneReturnType =
-  | {
-      inventory: ItemType[]
-    }
-  | { Error: any }
+type PostOneReturnType = {
+  inventory: ItemType[]
+}
 
 export class BrowseController {
-  static async get(): Promise<GetReturnType> {
+  static async get(): Promise<Result<Error, GetReturnType>> {
     try {
       // Query all items
       const itemObjects = await Item.findAll({
@@ -48,13 +43,13 @@ export class BrowseController {
       // Query all colors
       const colorObjects = await Color.findAll()
       const colors = colorObjects.map((data) => data.dataValues.color_name)
-      return { items, categories, colors }
+      return { success: true, value: { items, categories, colors } }
     } catch (err) {
-      return { Error: err }
+      return { success: false, error: new Error(err as string) }
     }
   }
 
-  static async getOne(id: number): Promise<GetOneReturnType> {
+  static async getOne(id: number): Promise<Result<Error, GetOneReturnType>> {
     try {
       const itemObject = await Item.findByPk(id)
       const dataFromItem = itemObject?.get({ plain: true })
@@ -65,12 +60,16 @@ export class BrowseController {
         (data) => data.get({ plain: true }).color_name
       )
       return {
-        item,
-        // item_has_pic: !imagesNotAvailable.includes(item.id),
-        colors,
+        success: true,
+        value: {
+          item,
+          // item_has_pic: !imagesNotAvailable.includes(item.id),
+          colors,
+        },
       }
     } catch (err) {
-      return { Error: err }
+      console.log(err)
+      return { success: false, error: err }
     }
   }
 

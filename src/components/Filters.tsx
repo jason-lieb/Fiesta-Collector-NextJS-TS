@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { MouseEventHandler, useState, FunctionComponent } from 'react'
 
 type FilterProps = {
-  categories: string[]
+  categories?: string[]
   colors?: string[]
   items?: string[]
   selectedCategories: Set<string>
