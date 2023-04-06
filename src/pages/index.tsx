@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react'
-import { GetStaticProps } from 'next'
+import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 
 // import styles from '@/styles/Home.module.css'
@@ -50,13 +50,13 @@ const Home: FunctionComponent<HomeProps> = ({
 
 export default Home
 
-export const getServerSideProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
   const data = await HomeController.get()
-  if (data?.Error) {
+  if (!data.success) {
     console.log('Server Error')
     return { props: { inventory: [] } }
   }
-  const { inventory, items, categories, colors, name } = data
+  const { inventory, items, categories, colors, name } = data.value
 
   return {
     props: { inventory, items, categories, colors, name },

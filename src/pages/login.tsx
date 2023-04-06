@@ -1,4 +1,5 @@
 import { FunctionComponent } from 'react'
+import { Password } from '@/components/Password'
 
 const Login: FunctionComponent<{}> = () => {
   return (
@@ -23,18 +24,7 @@ const Login: FunctionComponent<{}> = () => {
                   className="my-2 w-full rounded-lg border-2 border-solid border-zinc-500 py-1 text-center font-dosis hover:bg-zinc-300 lg:text-lg"
                 />
                 <div className="relative mt-4 mb-4 flex items-center">
-                  <i
-                    id="toggle"
-                    className="fa-regular fa-eye-slash text-md z-10 ml-2 text-zinc-500"
-                  ></i>
-                  <input
-                    id="passwordInput"
-                    type="password"
-                    placeholder="Password"
-                    minLength={8}
-                    maxLength={20}
-                    className="absolute my-2 w-full rounded-lg border-2 border-solid border-zinc-500 py-1 text-center font-dosis hover:bg-zinc-300 lg:text-lg"
-                  />
+                  <Password />
                 </div>
               </li>
               <li className="flex justify-center">
