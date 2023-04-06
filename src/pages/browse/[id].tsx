@@ -1,28 +1,39 @@
 import { FunctionComponent } from 'react'
-import { GetServerSideProps, GetStaticProps } from 'next'
+import { GetServerSideProps } from 'next'
 import Image from 'next/image'
 
 import { BrowseController } from '../../../controller'
+import { GetOneReturnType } from '../../../controller/BrowseController'
 import { Item } from '@/utils/types'
 
-type BrowseItemProps = {
-  item: Item
-  item_has_pic: boolean
-  colors: string[]
-}
+type BrowseItemProps =
+  | {
+      item: Item
+      colors: string[]
+      error: undefined
+    }
+  | {
+      item: undefined
+      colors: undefined
+      error: unknown
+    }
 
 const BrowseItem: FunctionComponent<BrowseItemProps> = ({
   item,
-  item_has_pic,
   colors,
+  error,
 }) => {
+  if (error) {
+    return <div>Error</div>
+  }
+
   return (
     <div>
       <p className="font-dosis text-zinc-600 text-4xl mt-12 text-center underline">
-        {item.item_name}
+        {item?.name}
       </p>
       <div className="flex justify-center gap-24 mt-16">
-        {!!item_has_pic ? (
+        {!!item?.has_pic ? (
           <Image
             src={`/items/${item.id}.webp`}
             alt="dish"
@@ -85,11 +96,18 @@ export default BrowseItem
 export const getServerSideProps: GetServerSideProps<BrowseItemProps> = async ({
   params,
 }) => {
-  const data = await BrowseController.getOne(params?.id)
-  if (data?.Error) return console.log('Server Error')
-  const { item, item_has_pic, colors } = data
+  let data
+  if (params?.id && !isNaN(Number(params?.id))) {
+    data = await BrowseController.getOne(Number(params.id))
+  } else {
+    data = { success: false, error: 'Invalid param' }
+  }
+
+  if (!data.success) return { props: { error: data.error } }
+
+  const { item, colors } = data.value as GetOneReturnType
 
   return {
-    props: { item, item_has_pic, colors },
+    props: { item, colors },
   }
 }

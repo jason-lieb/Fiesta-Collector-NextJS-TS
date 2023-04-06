@@ -8,7 +8,7 @@ type GetReturnType = {
   colors: string[]
 }
 
-type GetOneReturnType = {
+export type GetOneReturnType = {
   item: ItemType
   colors: string[]
 }
@@ -45,16 +45,18 @@ export class BrowseController {
       const colors = colorObjects.map((data) => data.dataValues.color_name)
       return { success: true, value: { items, categories, colors } }
     } catch (err) {
-      return { success: false, error: new Error(err as string) }
+      console.log('browseGetError', err)
+      return { success: false, error: err }
     }
   }
 
   static async getOne(id: number): Promise<Result<Error, GetOneReturnType>> {
     try {
       const itemObject = await Item.findByPk(id)
-      const dataFromItem = itemObject?.get({ plain: true })
+      if (itemObject === null)
+        return { success: false, error: 'No item with that ID' }
+      const dataFromItem = itemObject.get({ plain: true })
       const item = { has_pic: true, ...dataFromItem }
-      // const imagesNotAvailable = []
       const colorObjects = await Color.findAll()
       const colors = colorObjects.map(
         (data) => data.get({ plain: true }).color_name
@@ -63,12 +65,11 @@ export class BrowseController {
         success: true,
         value: {
           item,
-          // item_has_pic: !imagesNotAvailable.includes(item.id),
           colors,
         },
       }
     } catch (err) {
-      console.log(err)
+      console.log('browseGetOneError', err)
       return { success: false, error: err }
     }
   }

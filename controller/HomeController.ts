@@ -1,7 +1,11 @@
+import { Result } from '@/utils/types'
+
 const { Inventory, User, Color, Item, Category } = require('../models')
 
+type GetReturnType = {}
+
 export class HomeController {
-  static async get() {
+  static async get(): Promise<Result<Error, GetReturnType>> {
     try {
       // Query all of inventory for user
       const inventoryObjects = await Inventory.findAll({
@@ -14,7 +18,7 @@ export class HomeController {
             include: [{ model: Category, attributes: ['category_name'] }],
           },
         ],
-        where: { user_id: req.session.user_id },
+        where: { user_id: req.session.user_id }, ///////////////////////
       })
       if (inventoryObjects.length > 0) {
         const dataForInventory = inventoryObjects.map((data) =>
@@ -27,7 +31,6 @@ export class HomeController {
         ]
         const inventory = dataForInventory.map((data) => {
           return {
-            page: 'home',
             id: data.id,
             item_name: data.item.item_name,
             item_id: data.item.id,
@@ -64,7 +67,7 @@ export class HomeController {
         }
       }
     } catch (err) {
-      return { Error: err }
+      return { error: err }
     }
   }
 }
