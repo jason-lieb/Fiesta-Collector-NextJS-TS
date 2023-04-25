@@ -4,7 +4,6 @@ export const Password: FunctionComponent<{}> = () => {
   const [showPassword, setShowPassword] = useState(false)
 
   function toggleShowPassword() {
-    console.log('test')
     setShowPassword((showPassword) => !showPassword)
   }
   return (

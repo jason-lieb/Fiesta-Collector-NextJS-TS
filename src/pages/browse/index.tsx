@@ -2,7 +2,6 @@ import { FunctionComponent, useState } from 'react'
 import { GetServerSideProps } from 'next'
 
 import { BrowseController } from '../../../controller'
-
 import { Filters } from '@/components/Filters'
 import { ItemCard } from '@/components/ItemCard'
 import { Item, SelectedCategories } from '@/utils/types'
@@ -36,18 +35,27 @@ const Browse: FunctionComponent<BrowseProps> = ({
 
   return (
     <div className="lg:flex">
-      <Filters
-        categories={categories}
-        selectedCategories={selectedCategories}
-      />
+      {categories && (
+        <Filters
+          categories={categories}
+          selectedCategories={selectedCategories}
+          setSelectedCategories={setSelectedCategories}
+        />
+      )}
       <main id="main" className="scroll line">
         <div
           id="itemCards"
           className="flex flex-wrap justify-around lg:justify-start gap-4 m-8 ml-14"
         >
-          {items?.map((item, i) => (
-            <ItemCard key={i} item={item} />
-          ))}
+          {items
+            ?.filter(
+              (item) =>
+                selectedCategories.has(item.category_name) ||
+                selectedCategories.size === 0
+            )
+            .map((item, i) => (
+              <ItemCard key={i} item={item} />
+            ))}
         </div>
       </main>
     </div>
